@@ -1,8 +1,19 @@
 <h1>Hello to you my old Fruit...</h1>
 <h2>Test</h2>
-<p>Lorem ipsum dolor sit amet,</p>
+<p>Lorem ipsum dolor sit amet, and more stuff here!</p>
 
 <p> {{ stuff|title }} </p> 
 <br>
-<p>{{ fav_pizza }}
+<h3>Favourite Pizza</h3>
+<p>
+  {% for topping in fav_pizza %}
+
+  {% if topping == 42 %}
+      {{ topping + 50 }}<br>
+    {% else %}
+      {{ topping|title}}<br>
+    {% endif %}
+  {% endfor%}
 </p>
+
+<br>
