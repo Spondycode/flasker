@@ -1,8 +1,21 @@
 from flask import Flask, render_template
+from jinja2.environment import TemplateStream
+
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, EmailField
+from wtforms.validators import DataRequired
 
 
 ## Create a Flask Instance
 app = Flask(__name__)
+app.config["SECRET_KEY"] = "my super secret key that no one knows"
+
+
+# Create a Form Class
+class Namerform(FlaskForm):
+    name = StringField("What's Your Name", validators=[DataRequired()])
+    email = StringField("What's Your Email", validators=[DataRequired()])
+    submit = SubmitField("Submit")
 
 
 # Create a route decorator
@@ -18,9 +31,6 @@ def user(name):
     return render_template("user.html", name=name)
 
 
-# Create Custom Error Pages
-
-
 # Invalid url
 @app.errorhandler(404)
 def page_not_found(e):
@@ -29,7 +39,7 @@ def page_not_found(e):
 
 # Internal Server Error
 @app.errorhandler(500)
-def page_not_found(e):
+def server_problem(e):
     return render_template("500.html"), 500
 
 
@@ -37,3 +47,17 @@ def page_not_found(e):
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+
+@app.route("/name", methods=["GET", "POST"])
+def name():
+    name = None
+    email = None
+    form = Namerform()
+    # Validate Form
+    if form.validate_on_submit():
+        name = form.name.data
+        form.name.data = ""
+        email = form.email.data
+        form.email.data = ""
+    return render_template("name.html", name=name, email=email, form=form)
