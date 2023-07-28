@@ -1,9 +1,9 @@
-from flask import Flask, render_template
-from jinja2.environment import TemplateStream
+from flask import Flask, render_template, flash
 
+# from jinja2.environment import TemplateStream
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, EmailField
-from wtforms.validators import DataRequired
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired, Email
 
 
 ## Create a Flask Instance
@@ -60,4 +60,6 @@ def name():
         form.name.data = ""
         email = form.email.data
         form.email.data = ""
+        flash("Form Submitted Successfully")
+
     return render_template("name.html", name=name, email=email, form=form)

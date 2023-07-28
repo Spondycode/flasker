@@ -1,11 +1,21 @@
-
 {% extends 'base.html'%}
 
 {% block content %}
 
+{% for message in get_flashed_messages() %}
+  <div class="alert alert-primary alert-dismissible fade show" role="alert">
+
+    Hey {{ name }} - {{ message }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
 {% if name %}
-  <h2>Hello {{ name }}</h2>
+  <h2>Hello {{ name }} !!</h2>
+  <br/>
   <p>Your email address is {{ email }}</p>
+  <img src="{{ url_for('static', filename='images/clapperboard.png')}}">  
+
 {% else %}
   <h2>Give me Your Name NOW!!<h2>
   <br>
