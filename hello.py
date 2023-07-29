@@ -1,14 +1,44 @@
+from enum import unique
 from flask import Flask, render_template, flash
 
 # from jinja2.environment import TemplateStream
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired
+from datetime import datetime
 
+from pymongo.mongo_client import MongoClient
+
+uri = "mongodb+srv://billybongo:ndJWv1Z81CGWH8PD@bill.9nr6flq.mongodb.net/?retryWrites=true&w=majority"
+
+# Create a new client and connect to the server
+client = MongoClient(uri)
+
+# Send a ping to confirm a successful connection
+try:
+    client.admin.command("ping")
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
 
 ## Create a Flask Instance
 app = Flask(__name__)
+# app.config[SQLALCHEMY_DATABASE_URI] = "sqlite:///users.db"
 app.config["SECRET_KEY"] = "my super secret key that no one knows"
+
+# db = SQLAlchemy(app)
+
+
+# # Create a Model
+# class User(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(200), nullable=False)
+#     email = db.Column(db.String(120), nullable=False, unique=True)
+#     date_added = db.Column(db.DateTime, default=datetime.utcnow)
+
+# Create a String
+# def __repr__(self):
+# return "<Name %r>" % self.name
 
 
 # Create a Form Class
